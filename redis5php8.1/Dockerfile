@@ -201,3 +201,10 @@ COPY docker-php-ext-* /usr/local/bin/
 
 # sodium was built as a shared module (so that it can be replaced later if so desired), so let's enable it too (https://github.com/docker-library/php/issues/598)
 RUN docker-php-ext-enable sodium
+
+RUN php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');" &&\
+	php composer-setup.php && php -r "unlink('composer-setup.php');" &&\
+	mv composer.phar /usr/local/bin/composer &&\
+	composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+
+RUN apk add zip unzip
